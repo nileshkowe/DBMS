@@ -1,0 +1,88 @@
+mysql> create table employee(emp_id int PRIMARY KEY AUTO_INCREMENT, emp_name varchar(25), city varchar(20) DEFAULT "Pune", salary int, DOB date, experience float);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into employee values(1, Jack, "Wano", 95000, 01/07/1965, 1.25);
+ERROR 1054 (42S22): Unknown column 'Jack' in 'field list'
+mysql> insert into employee values(1, "Jack", "Wano", 95000, 01/07/1965, 1.25);
+ERROR 1292 (22007): Incorrect date value: '0.000072700835623409' for column 'DOB' at row 1
+mysql> insert into employee values(1, "Jack", "Wano", 95000, 01-07-1965, 1.25);
+ERROR 1292 (22007): Incorrect date value: '-1971' for column 'DOB' at row 1
+mysql> insert into employee values(1, "Jack", "Wano", 95000, 1965-07-01, 1.25);
+ERROR 1292 (22007): Incorrect date value: '1957' for column 'DOB' at row 1
+mysql> insert into employee values(1, "Jack", "Wano", 95000, '1965-07-01', 1.25);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from employee;
++--------+----------+------+--------+------------+------------+
+| emp_id | emp_name | city | salary | DOB        | experience |
++--------+----------+------+--------+------------+------------+
+|      1 | Jack     | Wano |  95000 | 1965-07-01 |       1.25 |
++--------+----------+------+--------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> insert into employee values("Buggy", 55000, '1967-03-15', 1);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into employee(emp_name, salary, DOB, experience) values("Buggy", 55000, '1967-03-15', 1);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from employee;
++--------+----------+------+--------+------------+------------+
+| emp_id | emp_name | city | salary | DOB        | experience |
++--------+----------+------+--------+------------+------------+
+|      1 | Jack     | Wano |  95000 | 1965-07-01 |       1.25 |
+|      2 | Buggy    | Pune |  55000 | 1967-03-15 |          1 |
++--------+----------+------+--------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employee(emp_name, salary, DOB, experience) values("Doflamingo", 77000, '1977-04-12', 2.5);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from employee;
++--------+------------+------+--------+------------+------------+
+| emp_id | emp_name   | city | salary | DOB        | experience |
++--------+------------+------+--------+------------+------------+
+|      1 | Jack       | Wano |  95000 | 1965-07-01 |       1.25 |
+|      2 | Buggy      | Pune |  55000 | 1967-03-15 |          1 |
+|      3 | Doflamingo | Pune |  77000 | 1977-04-12 |        2.5 |
++--------+------------+------+--------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employee(emp_name, salary, DOB, experience) values("Mihawk", 99000, '1955-09-17', 8);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee(emp_name, salary, DOB, experience) values("Kaido", 199000, '1954-02-11', 25);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(6, "Jack", "Hawaii", 280000, '1967-07-29', 19);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from employee;
++--------+------------+--------+--------+------------+------------+
+| emp_id | emp_name   | city   | salary | DOB        | experience |
++--------+------------+--------+--------+------------+------------+
+|      1 | Jack       | Wano   |  95000 | 1965-07-01 |       1.25 |
+|      2 | Buggy      | Pune   |  55000 | 1967-03-15 |          1 |
+|      3 | Doflamingo | Pune   |  77000 | 1977-04-12 |        2.5 |
+|      4 | Mihawk     | Pune   |  99000 | 1955-09-17 |          8 |
+|      5 | Kaido      | Pune   | 199000 | 1954-02-11 |         25 |
+|      6 | Jack       | Hawaii | 280000 | 1967-07-29 |         19 |
++--------+------------+--------+--------+------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> create view e_sal
+    -> as
+    -> select emp_name, salary from employee where salary BETWEEN 70000 AND 200000;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from e_sal;
++------------+--------+
+| emp_name   | salary |
++------------+--------+
+| Jack       |  95000 |
+| Doflamingo |  77000 |
+| Mihawk     |  99000 |
+| Kaido      | 199000 |
++------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> 
