@@ -48,3 +48,50 @@ exception
 when no_data_found then
 dbms_output.put_line(rollnum||'Not found');
 end;
+
+
+
+
+
+
+
+/*
+create table Borrower(Roll_no integer, Name varchar(25), Date_of_issue date, Name_of_book varchar(25), Status varchar(20));
+create table Fine(Rollno integer, sys_date date, Amount integer);
+drop table Fine;
+desc Borrower;
+desc Fine;
+
+insert into Borrower values (1, 'Zack', '9-15-2022', 'DBMS', 'Issued');
+insert into Borrower values (2, 'Red', '9-01-2022', 'TOC', 'Issued');
+insert into Borrower values (34, 'Ash', '9-04-2022', 'CNS', 'Issued');
+insert into Borrower values (41, 'Flash', '9-11-2022', 'SPM', 'Issued');
+insert into Borrower values (57, 'Drake', '9-21-2022', 'SPM', 'Issued');
+
+select * from Borrower;
+select * from Fine;
+
+drop procedure calfine;
+*/
+create procedure calfine(Rollno integer(20), name varchar(50))
+BEGIN
+
+DECLARE
+doissue date;
+fine integer(20);
+day integer(20);
+
+select Date_of_issue into doissue from Borrower where Roll_no=Rollno AND Name_of_book=name;
+set day:= DATEDIFF(CURDATE(),doissue);
+IF (no_of_days>=15 and no_of_days<=30) then
+set fine:=day*5;
+ELSIF (day>30) then
+set fine:=day*50;
+end IF;
+update Borrower set Status='R' where Roll_no:=Rollno and Name_of_book:=name;
+IF (fine is not NULL) then
+insert into Fine values(Rollno, CURDATE(), fine);
+end IF;
+END
+
+call calfine(2, "TOC");
