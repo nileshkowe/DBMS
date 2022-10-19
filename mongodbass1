@@ -1,0 +1,402 @@
+ubuntu@ubuntu-OptiPlex-5000:~$ mongosh
+Current Mongosh Log ID:	634f8139e0d8bf2557c0760f
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0
+Using MongoDB:		6.0.1
+Using Mongosh:		1.6.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-10-19T10:16:00.226+05:30: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2022-10-19T10:16:00.434+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2022-10-19T10:16:00.434+05:30: vm.max_map_count is too low
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+   
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+   
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+test> show databases;
+admin     40.00 KiB
+b1       140.00 KiB
+config    84.00 KiB
+cookie    72.00 KiB
+db1      216.00 KiB
+dbs       48.00 KiB
+demo      60.00 KiB
+local     80.00 KiB
+mydb      48.00 KiB
+pratham   72.00 KiB
+test       8.00 KiB
+yash     100.00 KiB
+test> use ad
+switched to db ad
+ad> dbdb.createCollection("Employee")
+ReferenceError: dbdb is not defined
+ad> db.createCollection("Employee")
+{ ok: 1 }
+ad> show collections
+Employee
+ad> db.Employee.insert({"name" : "Aadarsh"})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("634f82fb04feb5efae9aa9a1") }
+}
+ad> db.Employee.insertOne({"name" : "Aadarsh"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("634f831c04feb5efae9aa9a2")
+}
+ad> db.Employee.find("Aadarsh")
+MongoInvalidArgumentError: Query filter must be a plain object or ObjectId
+ad> db.Employee.find("name")
+MongoInvalidArgumentError: Query filter must be a plain object or ObjectId
+ad> db.Employee.find()
+[
+  { _id: ObjectId("634f82fb04feb5efae9aa9a1"), name: 'Aadarsh' },
+  { _id: ObjectId("634f831c04feb5efae9aa9a2"), name: 'Aadarsh' }
+]
+ad> db.Employee.find()
+[
+  { _id: ObjectId("634f82fb04feb5efae9aa9a1"), name: 'Aadarsh' },
+  { _id: ObjectId("634f831c04feb5efae9aa9a2"), name: 'Aadarsh' }
+]
+ad> db.Employee.drop()
+true
+ad> db.createCollection("Employee")
+{ ok: 1 }
+ad> db.Employee.insertOne({"e_id" : 1, "name" : "Aadarsh"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("634f85a104feb5efae9aa9a3")
+}
+ad> db.Employee.drop()
+true
+ad> db.createCollection("Employee")
+{ ok: 1 }
+ad> db.Employee.insertOne({"e_id" : 1, "name" : "Aadarsh", "salary" : 200000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("634f862004feb5efae9aa9a4")
+}
+ad> db.Employee.insertOne({"e_id" : 2, "name" : "Kalp", "salary" : 165000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("634f865004feb5efae9aa9a5")
+}
+ad> db.Employee.insertOne({"e_id" : 3, "name" : "Ruci", "salary" : 177700})
+{
+  acknowledged: true,
+  insertedId: ObjectId("634f868204feb5efae9aa9a6")
+}
+ad> db.Employee.insertOne({"e_id" : 4, "name" : "Nilesh", "salary" : 129000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("634f86b004feb5efae9aa9a7")
+}
+ad> db.Employee.find()
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  },
+  {
+    _id: ObjectId("634f865004feb5efae9aa9a5"),
+    e_id: 2,
+    name: 'Kalp',
+    salary: 165000
+  },
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 129000
+  }
+]
+ad> db.Employee.find().pretty();
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  },
+  {
+    _id: ObjectId("634f865004feb5efae9aa9a5"),
+    e_id: 2,
+    name: 'Kalp',
+    salary: 165000
+  },
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 129000
+  }
+]
+ad> db.Employee.update({"salary":"129000"}, {$set:{"salary":"183000"}});
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+ad> db.Employee.find()
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  },
+  {
+    _id: ObjectId("634f865004feb5efae9aa9a5"),
+    e_id: 2,
+    name: 'Kalp',
+    salary: 165000
+  },
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 129000
+  }
+]
+ad> db.Employee.find()
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  },
+  {
+    _id: ObjectId("634f865004feb5efae9aa9a5"),
+    e_id: 2,
+    name: 'Kalp',
+    salary: 165000
+  },
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 129000
+  }
+]
+ad> db.Employee.update({"salary":129000}, {$set:{"salary":183000}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+ad> db.Employee.find()
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  },
+  {
+    _id: ObjectId("634f865004feb5efae9aa9a5"),
+    e_id: 2,
+    name: 'Kalp',
+    salary: 165000
+  },
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 183000
+  }
+]
+ad> db.Employee.remove({"e_id":2});
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 1 }
+ad> db.Employee.find()
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  },
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 183000
+  }
+]
+ad> db.Employee.insertOne({"e_id":5,"name":"Zeno","salary":155140});
+{
+  acknowledged: true,
+  insertedId: ObjectId("634f898104feb5efae9aa9a8")
+}
+ad> db.Employee.find()
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  },
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 183000
+  },
+  {
+    _id: ObjectId("634f898104feb5efae9aa9a8"),
+    e_id: 5,
+    name: 'Zeno',
+    salary: 155140
+  }
+]
+ad> db.Employee.find({$or:[{"e_id":3},{"name":"Zeno"}]}).pretty();
+[
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f898104feb5efae9aa9a8"),
+    e_id: 5,
+    name: 'Zeno',
+    salary: 155140
+  }
+]
+ad> db.Employee.find({$and:[{"e_id":1},{"name":"Aadarsh"}]})
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  }
+]
+ad> db.Employee.find({"salary":{$gte:160000}})
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  },
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 183000
+  }
+]
+ad> db.Employee.find({"salary":{lte:160000}})
+
+ad> db.Employee.find({"salary":{$lte:160000}})
+[
+  {
+    _id: ObjectId("634f898104feb5efae9aa9a8"),
+    e_id: 5,
+    name: 'Zeno',
+    salary: 155140
+  }
+]
+ad> db.Employee.find({"salary":{$in:[150000,160000,170000,180000,190000,200000]}})
+[
+  {
+    _id: ObjectId("634f862004feb5efae9aa9a4"),
+    e_id: 1,
+    name: 'Aadarsh',
+    salary: 200000
+  }
+]
+ad> db.Employee.find({"salary":{$nin:[150000,160000,170000,180000,190000,200000]}})
+[
+  {
+    _id: ObjectId("634f868204feb5efae9aa9a6"),
+    e_id: 3,
+    name: 'Ruci',
+    salary: 177700
+  },
+  {
+    _id: ObjectId("634f86b004feb5efae9aa9a7"),
+    e_id: 4,
+    name: 'Nilesh',
+    salary: 183000
+  },
+  {
+    _id: ObjectId("634f898104feb5efae9aa9a8"),
+    e_id: 5,
+    name: 'Zeno',
+    salary: 155140
+  }
+]
+ad> 
+
